@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinePremier - Cartelera de Cine (CSS Tradicional)</title>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. VARIABLES Y REGLAS BASE (Reset & Modern CSS Variables)
+       ========================================================================== */
+    :root {
+      --bg-principal: #090d16;
+      --bg-header: rgba(15, 23, 42, 0.85);
+      --bg-tarjeta: #0f172a;
+      --bg-hover: #1e293b;
+      --color-primario: #e11d48;
+      --color-primario-hover: #f43f5e;
+      --texto-principal: #f8fafc;
+      --texto-secundario: #94a3b8;
+      --texto-mutado: #64748b;
+      --borde-color: rgba(255, 255, 255, 0.08);
+      --sombra: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --fuente-base: 'Inter', sans-serif;
+      --radio-borde: 14px;
+      --transicion: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--fuente-base);
+      background-color: var(--bg-principal);
+      color: var(--texto-principal);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       2. CABECERA Y NAVEGACIÓN (Header & Navbar)
+       ========================================================================== */
+    .encabezado {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-header);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--borde-color);
+    }
+
+    .encabezado-contenido {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .logo-contenedor {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--texto-principal);
+    }
+
+    .logo-icono {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--color-primario), #f59e0b);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+    }
+
+    .logo-texto {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    /* Buscador */
+    .buscador-contenedor {
+      flex: 1;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .buscador-input {
+      width: 100%;
+      padding: 0.6rem 1rem 0.6rem 2.5rem;
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--borde-color);
+      border-radius: 10px;
+      color: var(--texto-principal);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transicion);
+    }
+
+    .buscador-input:focus {
+      border-color: var(--color-primario);
+      background-color: var(--bg-hover);
+      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.2);
+    }
+
+    .buscador-icono {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--texto-secundario);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .badge-cartelera {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--borde-color);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--texto-secundario);
+    }
+
+    .punto-vivo {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* ==========================================================================
+       3. SECCIÓN BANNER / HÉROE
+       ========================================================================== */
+    .seccion-heroe {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, var(--bg-principal) 100%);
+      border-bottom: 1px solid var(--borde-color);
+      padding: 2.5rem 1.5rem;
+    }
+
+    .heroe-contenido {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .heroe-titulo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .heroe-subtitulo {
+      color: var(--texto-secundario);
+      font-size: 0.95rem;
+    }
+
+    /* Botones de Filtro por Género */
+    .filtros-genero {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-filtro {
+      background-color: var(--bg-tarjeta);
+      border: 1px solid var(--borde-color);
+      color: var(--texto-secundario);
+      padding: 0.45rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .btn-filtro:hover {
+      background-color: var(--bg-hover);
+      color: var(--texto-principal);
+    }
+
+    .btn-filtro.activo {
+      background-color: var(--color-primario);
+      color: white;
+      border-color: var(--color-primario);
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    }
+
+    /* ==========================================================================
+       4. GRID DE PELÍCULAS (Main Content & Cards)
+       ========================================================================== */
+    .contenedor-principal {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    .cartelera-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* Tarjeta de Película */
+    .pelicula-card {
+      background-color: var(--bg-tarjeta);
+      border: 1px solid var(--borde-color);
+      border-radius: var(--radio-borde);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transicion);
+    }
+
+    .pelicula-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--sombra);
+    }
+
+    /* Póster y Superposiciones */
+    .poster-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      background-color: #1e293b;
+      overflow: hidden;
+    }
+
+    .poster-imagen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .pelicula-card:hover .poster-imagen {
+      transform: scale(1.05);
+    }
+
+    .poster-sombra {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, var(--bg-tarjeta) 100%);
+    }
+
+    .badge-clasificacion {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--borde-color);
+      color: var(--texto-principal);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .badge-rating {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--borde-color);
+      color: #fbbf24;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .poster-info-overlay {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+    }
+
+    .pelicula-genero {
+      color: var(--color-primario);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pelicula-titulo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Detalles y Horarios */
+    .pelicula-contenido {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .pelicula-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--texto-secundario);
+    }
+
+    .horarios-lista {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-horario {
+      background-color: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--borde-color);
+      color: var(--texto-secundario);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+
+    .btn-ver-mas {
+      width: 100%;
+      padding: 0.6rem;
+      background-color: var(--bg-hover);
+      border: 1px solid var(--borde-color);
+      color: var(--texto-principal);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transicion);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .btn-ver-mas:hover {
+      background-color: var(--color-primario);
+      border-color: var(--color-primario);
+      color: white;
+    }
+
+    /* Sin Resultados */
+    .sin-resultados {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--texto-secundario);
+      grid-column: 1 / -1;
+    }
+
+    .sin-resultados-icono {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ==========================================================================
+       5. MODAL DE DETALLES Y BOLETOS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background-color: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.activo {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-contenedor {
+      background-color: var(--bg-tarjeta);
+      border: 1px solid var(--borde-color);
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      overflow: hidden;
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-overlay.activo .modal-contenedor {
+      transform: scale(1);
+    }
+
+    .modal-cabecera-poster {
+      position: relative;
+      height: 200px;
+    }
+
+    .modal-cabecera-poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-overlay-gradiente {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, var(--bg-tarjeta) 0%, transparent 100%);
+    }
+
+    .btn-cerrar-modal {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-info-basica {
+      position: absolute;
+      bottom: 12px;
+      left: 1.5rem;
+      right: 1.5rem;
+    }
+
+    .modal-cuerpo {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .modal-meta-bar {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--texto-secundario);
+    }
+
+    .modal-sinopsis {
+      font-size: 0.9rem;
+      color: var(--texto-secundario);
+      line-height: 1.6;
+    }
+
+    .modal-seccion-horarios h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--texto-mutado);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-horarios-grid {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-horario {
+      background-color: var(--bg-hover);
+      border: 1px solid var(--borde-color);
+      color: var(--texto-principal);
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-family: monospace;
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .btn-horario:hover, .btn-horario.seleccionado {
+      background-color: var(--color-primario);
+      border-color: var(--color-primario);
+      color: white;
+    }
+
+    .btn-comprar {
+      width: 100%;
+      padding: 0.85rem;
+      background-color: var(--color-primario);
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transicion);
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+    }
+
+    .btn-comprar:hover {
+      background-color: var(--color-primario-hover);
+    }
+
+    /* ==========================================================================
+       6. PIE DE PÁGINA (Footer)
+       ========================================================================== */
+    .pie-pagina {
+      background-color: #050811;
+      border-top: 1px solid var(--borde-color);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--texto-mutado);
+    }
+
+    .pie-pagina-contenido {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ==========================================================================
+       7. RESPONSIVE DESIGN (Media Queries)
+       ========================================================================== */
+    @media (max-width: 640px) {
+      .encabezado-contenido {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .badge-cartelera {
+        display: none;
+      }
+
+      .heroe-contenido {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .pie-pagina-contenido {
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera -->
+  <header class="encabezado">
+    <div class="encabezado-contenido">
+      <a href="#" class="logo-contenedor">
+        <div class="logo-icono">🍿</div>
+        <span class="logo-texto">CinePremier</span>
+      </a>
+
+      <!-- Buscador -->
+      <div class="buscador-contenedor">
+        <span class="buscador-icono">🔍</span>
+        <input 
+          type="text" 
+          id="inputBuscador" 
+          class="buscador-input" 
+          placeholder="Buscar película..."
+        >
+      </div>
+
+      <div class="badge-cartelera">
+        <span class="punto-vivo"></span>
+        <span>Cartelera Hoy</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner Héroe -->
+  <section class="seccion-heroe">
+    <div class="heroe-contenido">
+      <div>
+        <h1 class="heroe-titulo">Películas en Cartelera</h1>
+        <p class="heroe-subtitulo">Selecciona una película y reserva tus boletos al instante.</p>
+      </div>
+
+      <!-- Filtros por Género -->
+      <div id="contenedorFiltros" class="filtros-genero">
+        <!-- Generado dinámicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Lista de Películas -->
+  <main class="contenedor-principal">
+    <div id="gridPeliculas" class="cartelera-grid">
+      <!-- Generado dinámicamente por JS -->
+    </div>
+  </main>
+
+  <!-- Modal de Selección de Boletos -->
+  <div id="modalPelicula" class="modal-overlay">
+    <div class="modal-contenedor">
+      <div class="modal-cabecera-poster">
+        <img id="modalImagen" src="" alt="Póster">
+        <div class="modal-overlay-gradiente"></div>
+        <button id="btnCerrarModal" class="btn-cerrar-modal">&times;</button>
+        <div class="modal-info-basica">
+          <span id="modalGenero" class="pelicula-genero"></span>
+          <h2 id="modalTitulo" class="pelicula-titulo" style="font-size: 1.4rem;"></h2>
+        </div>
+      </div>
+      <div class="modal-cuerpo">
+        <div class="modal-meta-bar">
+          <span>⏱️ <strong id="modalDuracion" style="color: var(--texto-principal);"></strong></span>
+          <span>⭐ <strong id="modalRating" style="color: #fbbf24;"></strong></span>
+          <span>Clasif: <strong id="modalClasificacion" style="color: var(--texto-principal);"></strong></span>
+        </div>
+        <p id="modalSinopsis" class="modal-sinopsis"></p>
+        
+        <div class="modal-seccion-horarios">
+          <h4>Selecciona un Horario</h4>
+          <div id="modalHorarios" class="modal-horarios-grid"></div>
+        </div>
+
+        <button id="btnConfirmar" class="btn-comprar">Comprar Boletos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="pie-pagina">
+    <div class="pie-pagina-contenido">
+      <p>&copy; 2026 CinePremier Demo - CSS Tradicional.</p>
+      <p>Proyecto de Ejemplo para GitHub Pages</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript Vanilla -->
+  <script>
+    // Datos de ejemplo
+    const peliculas = [
+      {
+        id: 1,
+        titulo: "Dune: Parte Dos",
+        genero: "Sci-Fi",
+        duracion: "166 min",
+        rating: "8.6",
+        clasificacion: "B15",
+        sinopsis: "Paul Atreides se une a Chani y a los Fremen mientras busca venganza contra los conspiradores que destruyeron a su familia.",
+        poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&auto=format&fit=crop&q=80",
+        horarios: ["14:30", "17:45", "21:00"]
+      },
+      {
+        id: 2,
+        titulo: "Cyberpunk 2099",
+        genero: "Acción",
+        duracion: "125 min",
+        rating: "7.9",
+        clasificacion: "C",
+        sinopsis: "En una metrópolis dominada por la realidad virtual, un hacker rebelde descubre un secreto que podría cambiar el destino humano.",
+        poster: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=80",
+        horarios: ["15:00", "18:20", "22:15"]
+      },
+      {
+        id: 3,
+        titulo: "El Secreto del Bosque",
+        genero: "Terror",
+        duracion: "108 min",
+        rating: "7.2",
+        clasificacion: "B15",
+        sinopsis: "Un grupo de exploradores se adentra en un antiguo bosque escandinavo sin saber que una fuerza milenaria los está acechando.",
+        poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=80",
+        horarios: ["16:10", "19:30", "23:00"]
+      },
+      {
+        id: 4,
+        titulo: "Guardianes Espaciales",
+        genero: "Aventura",
+        duracion: "140 min",
+        rating: "8.1",
+        clasificacion: "A",
+        sinopsis: "Una disparatada tripulación espacial se embarca en una misión desesperada para salvar el cosmos de una amenaza destructiva.",
+        poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=80",
+        horarios: ["13:00", "16:00", "19:15"]
+      },
+      {
+        id: 5,
+        titulo: "Aventuras Animadas",
+        genero: "Animación",
+        duracion: "95 min",
+        rating: "8.4",
+        clasificacion: "AA",
+        sinopsis: "Un pequeño zorro descubre que posee habilidades mágicas y decide emprender un viaje para reunir a los espíritus de la naturaleza.",
+        poster: "https://images.unsplash.com/photo-1563089145-599997674d42?w=500&auto=format&fit=crop&q=80",
+        horarios: ["12:30", "14:45", "17:00"]
+      },
+      {
+        id: 6,
+        titulo: "Misterio en el Expreso",
+        genero: "Drama",
+        duracion: "118 min",
+        rating: "7.5",
+        clasificacion: "B",
+        sinopsis: "Un detective legendario debe resolver un asesinato atípico ocurrido en un tren de lujo que viaja a través de los Alpes.",
+        poster: "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=500&auto=format&fit=crop&q=80",
+        horarios: ["18:00", "20:45"]
+      }
+    ];
+
+    // Estado local
+    let generoSeleccionado = "Todos";
+    let textoBusqueda = "";
+    let horarioSeleccionado = "";
+
+    // Elementos DOM
+    const gridPeliculas = document.getElementById("gridPeliculas");
+    const contenedorFiltros = document.getElementById("contenedorFiltros");
+    const inputBuscador = document.getElementById("inputBuscador");
+    
+    // Elementos Modal DOM
+    const modalPelicula = document.getElementById("modalPelicula");
+    const btnCerrarModal = document.getElementById("btnCerrarModal");
+    const modalImagen = document.getElementById("modalImagen");
+    const modalTitulo = document.getElementById("modalTitulo");
+    const modalGenero = document.getElementById("modalGenero");
+    const modalDuracion = document.getElementById("modalDuracion");
+    const modalRating = document.getElementById("modalRating");
+    const modalClasificacion = document.getElementById("modalClasificacion");
+    const modalSinopsis = document.getElementById("modalSinopsis");
+    const modalHorarios = document.getElementById("modalHorarios");
+    const btnConfirmar = document.getElementById("btnConfirmar");
+
+    // Obtener lista de géneros únicos
+    const generos = ["Todos", ...new Set(peliculas.map(p => p.genero))];
+
+    // Renderizar botones de filtro por género
+    function renderizarFiltros() {
+      contenedorFiltros.innerHTML = generos.map(genero => `
+        <button 
+          class="btn-filtro ${generoSeleccionado === genero ? 'activo' : ''}" 
+          onclick="filtrarPorGenero('${genero}')"
+        >
+          ${genero}
+        </button>
+      `).join('');
+    }
+
+    // Filtrar géneros
+    window.filtrarPorGenero = function(genero) {
+      generoSeleccionado = genero;
+      renderizarFiltros();
+      renderizarCartelera();
+    };
+
+    // Renderizar tarjetas de películas
+    function renderizarCartelera() {
+      const filtradas = peliculas.filter(pelicula => {
+        const coincideGenero = generoSeleccionado === "Todos" || pelicula.genero === generoSeleccionado;
+        const coincideBusqueda = pelicula.titulo.toLowerCase().includes(textoBusqueda.toLowerCase());
+        return coincideGenero && coincideBusqueda;
+      });
+
+      if (filtradas.length === 0) {
+        gridPeliculas.innerHTML = `
+          <div class="sin-resultados">
+            <div class="sin-resultados-icono">🎬</div>
+            <h3>No se encontraron películas</h3>
+            <p>Intenta buscando con otro término o género.</p>
+          </div>
+        `;
+        return;
+      }
+
+      gridPeliculas.innerHTML = filtradas.map(pelicula => `
+        <div class="pelicula-card">
+          <div class="poster-wrapper">
+            <img src="${pelicula.poster}" alt="${pelicula.titulo}" class="poster-imagen">
+            <div class="poster-sombra"></div>
+            <span class="badge-clasificacion">${pelicula.clasificacion}</span>
+            <span class="badge-rating">⭐ ${pelicula.rating}</span>
+            <div class="poster-info-overlay">
+              <span class="pelicula-genero">${pelicula.genero}</span>
+              <h3 class="pelicula-titulo">${pelicula.titulo}</h3>
+            </div>
+          </div>
+          <div class="pelicula-contenido">
+            <div class="pelicula-meta">
+              <span>⏱️ ${pelicula.duracion}</span>
+              <span>Hoy</span>
+            </div>
+            <div class="horarios-lista">
+              ${pelicula.horarios.map(h => `<span class="badge-horario">${h}</span>`).join('')}
+            </div>
+            <button class="btn-ver-mas" onclick="abrirModal(${pelicula.id})">
+              Ver detalles / Comprar
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Abrir Modal
+    window.abrirModal = function(id) {
+      const pelicula = peliculas.find(p => p.id === id);
+      if (!pelicula) return;
+
+      horarioSeleccionado = "";
+      modalImagen.src = pelicula.poster;
+      modalTitulo.textContent = pelicula.titulo;
+      modalGenero.textContent = pelicula.genero;
+      modalDuracion.textContent = pelicula.duracion;
+      modalRating.textContent = pelicula.rating;
+      modalClasificacion.textContent = pelicula.clasificacion;
+      modalSinopsis.textContent = pelicula.sinopsis;
+
+      modalHorarios.innerHTML = pelicula.horarios.map(h => `
+        <button class="btn-horario" onclick="seleccionarHorario(this, '${h}')">${h}</button>
+      `).join('');
+
+      modalPelicula.classList.add("activo");
+    };
+
+    // Seleccionar Horario en Modal
+    window.seleccionarHorario = function(btn, horario) {
+      horarioSeleccionado = horario;
+      document.querySelectorAll(".btn-horario").forEach(b => b.classList.remove("seleccionado"));
+      btn.classList.add("seleccionado");
+    };
+
+    // Cerrar Modal
+    function cerrarModal() {
+      modalPelicula.classList.remove("activo");
+    }
+
+    // Listeners
+    inputBuscador.addEventListener("input", (e) => {
+      textoBusqueda = e.target.value;
+      renderizarCartelera();
+    });
+
+    btnCerrarModal.addEventListener("click", cerrarModal);
+    modalPelicula.addEventListener("click", (e) => {
+      if (e.target === modalPelicula) cerrarModal();
+    });
+
+    btnConfirmar.addEventListener("click", () => {
+      if (!horarioSeleccionado) {
+        alert("Por favor selecciona un horario para tu función.");
+        return;
+      }
+      alert(`¡Boletos reservados con éxito para la función de las ${horarioSeleccionado}!`);
+      cerrarModal();
+    });
+
+    // Inicializar app
+    renderizarFiltros();
+    renderizarCartelera();
+  </script>
+</body>
+</html>
